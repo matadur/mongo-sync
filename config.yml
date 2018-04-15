@@ -7,6 +7,7 @@ local:
 
 remote:
   db: 'remote_db_name'
+  authenticationDb: 'remote_auth_db_name'
   host:
     url: 'some.remoteurl.com'
     port: 27017

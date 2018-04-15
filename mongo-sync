@@ -106,6 +106,7 @@ function load_configs {
     # - $local_db
     # - $local_host_port
     # - $remote_db
+    # - $remote_authenticationDb
     # - $remote_host_url
     # - $remote_host_port
     # - $remote_access_username
@@ -138,9 +139,12 @@ function pull {
     load_configs
 
     echo "Dumping Remote DB to $TMPDIR... "
+
     mongodump \
         -h "$remote_host_url":"$remote_host_port" \
         -d "$remote_db" \
+        --ssl \
+        --authenticationDatabase "$remote_authenticationDb" \
         -u "$remote_access_username" \
         -p "$remote_access_password" \
         -o "$TMPDIR" > /dev/null
@@ -169,6 +173,8 @@ function push {
     mongorestore \
         -h "$remote_host_url":"$remote_host_port" \
         -d "$remote_db" \
+        --ssl \
+        --authenticationDatabase "$remote_authenticationDb" \
         -u "$remote_access_username" \
         -p "$remote_access_password" \
         "$TMPDIR"/"$local_db" --drop > /dev/null
